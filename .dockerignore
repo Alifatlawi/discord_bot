@@ -1,0 +1,12 @@
+# Never bake secrets, the local DB, the venv, or git history into the image.
+.env
+*.db
+*.db-wal
+*.db-shm
+.venv/
+venv/
+.git/
+.gitignore
+__pycache__/
+*.pyc
+README.md

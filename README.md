@@ -47,6 +47,32 @@ On first launch the bot creates `r6.db`, cancels any matches orphaned by a previ
 run, and syncs its slash commands. With `DEV_GUILD_ID` set, commands appear instantly
 in that server; otherwise global sync can take up to an hour.
 
+## Running with Docker (recommended for a VPS)
+
+A `Dockerfile` and `docker-compose.yml` are included. The token is read from a
+`.env` file at runtime (never baked into the image), and the SQLite leaderboard
+lives on a named volume so it survives restarts and rebuilds.
+
+On the server (outside Turkey — Discord must be reachable):
+
+```bash
+git clone https://github.com/Alifatlawi/discord_bot.git
+cd discord_bot
+cp .env.example .env       # then edit .env and paste your DISCORD_TOKEN
+docker compose up -d --build
+```
+
+Useful commands:
+
+```bash
+docker compose logs -f     # watch the bot (look for "Logged in as ...")
+docker compose restart     # restart it
+docker compose down        # stop it (the r6data volume / leaderboard is kept)
+docker compose up -d --build   # redeploy after a git pull
+```
+
+The bot only makes outbound connections to Discord, so no ports need to be opened.
+
 ## Tuning
 
 Everything tunable lives in **`config.py`**: scoring (`WIN_POINTS`, `LOSS_POINTS`),

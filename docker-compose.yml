@@ -1,0 +1,17 @@
+services:
+  bot:
+    build: .
+    container_name: r6-bot
+    restart: unless-stopped
+    # Token (and optional DEV_GUILD_ID) come from a .env file you create on the
+    # VPS — it is NOT in the image or the git repo.
+    env_file: .env
+    # Store the SQLite leaderboard on a named volume so it survives restarts and
+    # rebuilds. This overrides DB_PATH from .env.
+    environment:
+      DB_PATH: /data/r6.db
+    volumes:
+      - r6data:/data
+
+volumes:
+  r6data:

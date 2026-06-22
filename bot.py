@@ -27,7 +27,12 @@ class R6Bot(commands.Bot):
     def __init__(self):
         intents = discord.Intents.none()
         intents.guilds = True  # the only intent we need (slash + buttons)
-        super().__init__(command_prefix="!", intents=intents, help_command=None)
+        # We only use slash commands. Using when_mentioned (instead of a text
+        # prefix) tells discord.py we don't need the message_content intent and
+        # suppresses the misleading "commands may not work" warning.
+        super().__init__(
+            command_prefix=commands.when_mentioned, intents=intents, help_command=None
+        )
         self.db = Database(config.DB_PATH)
         self.manager = SessionManager()
 
